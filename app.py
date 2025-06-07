@@ -44,3 +44,12 @@ def add_lead():
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     app.run(host='0.0.0.0', port=port)
+    @app.route('/delete-lead/<int:lead_id>', methods=['POST'])
+def delete_lead(lead_id):
+    conn = sqlite3.connect('leads.db')
+    c = conn.cursor()
+    c.execute('DELETE FROM leads WHERE id = ?', (lead_id,))
+    conn.commit()
+    conn.close()
+    return redirect('/')
+
